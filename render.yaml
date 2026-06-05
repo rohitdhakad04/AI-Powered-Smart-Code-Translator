@@ -1,0 +1,39 @@
+# Render manifest for deploying this project to Render.com
+# Replace secret values in the Render dashboard, not in this file.
+services:
+  - type: web
+    name: code-translator-server
+    env: node
+    repo: https://github.com/rohitdhakad04/AI-Powered-Smart-Code-Translator
+    branch: main
+    root: server
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: MONGODB_URI
+        value: ""
+      - key: GEMINI_API_KEY
+        value: ""
+      - key: JWT_SECRET
+        value: ""
+      - key: JWT_EXPIRES_IN
+        value: "7d"
+      - key: GOOGLE_CLIENT_ID
+        value: ""
+      - key: CLIENT_URL
+        value: ""
+
+  - type: static
+    name: code-translator-client
+    repo: https://github.com/rohitdhakad04/AI-Powered-Smart-Code-Translator
+    branch: main
+    root: client
+    buildCommand: npm install && npm run build
+    publishCommand: dist
+    envVars:
+      - key: VITE_GOOGLE_CLIENT_ID
+        value: ""
+
+# Notes:
+# - Set actual secret values in Render dashboard once the service is created.
+# - After the client deploys, set the client's public URL as the server's CLIENT_URL.
