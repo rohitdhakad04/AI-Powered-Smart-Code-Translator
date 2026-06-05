@@ -21,19 +21,20 @@ services:
       - key: GOOGLE_CLIENT_ID
         value: ""
       - key: CLIENT_URL
-        value: ""
+        value: "https://ai-powered-smart-code-translator-1.onrender.com"
 
   - type: static
     name: code-translator-client
     repo: https://github.com/rohitdhakad04/AI-Powered-Smart-Code-Translator
     branch: main
     root: client
-    buildCommand: npm install && npm run build
+    buildCommand: npm ci && npm run build
     publishCommand: dist
     envVars:
       - key: VITE_GOOGLE_CLIENT_ID
         value: ""
-
+      - key: VITE_API_URL
+        value: "https://ai-powered-smart-code-translator-server.onrender.com/api"
 # Notes:
 # - Set actual secret values in Render dashboard once the service is created.
 # - After the client deploys, set the client's public URL as the server's CLIENT_URL.
