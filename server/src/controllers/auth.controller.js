@@ -49,23 +49,6 @@ export const loginUser = async (req, res, next) => {
   }
 };
 
-export const googleAuth = async (req, res, next) => {
-  try {
-    const { credential } = req.body;
-
-    if (!credential) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Google credential is required." });
-    }
-
-    const result = await authService.googleLogin(credential);
-    return res.json({ success: true, data: result });
-  } catch (error) {
-    next(error);
-  }
-};
-
 export const getMe = async (req, res, next) => {
   try {
     const user = await authService.getUserProfile(req.user._id);

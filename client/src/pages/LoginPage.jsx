@@ -1,9 +1,8 @@
 import { useState, useContext } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
-import { GoogleLogin } from '@react-oauth/google';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../context/AuthContext.jsx';
-import { register, emailLogin, googleLogin } from '../services/authService.js';
+import { register, emailLogin } from '../services/authService.js';
 import '../styles/login.css';
 
 const features = [
@@ -45,17 +44,6 @@ function LoginPage() {
       toast.error(err.response?.data?.message || 'Something went wrong.');
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleGoogleSuccess = async (credentialResponse) => {
-    try {
-      const result = await googleLogin(credentialResponse.credential);
-      login(result.token, result.user);
-      toast.success(`Welcome, ${result.user.name}!`);
-      navigate('/');
-    } catch {
-      toast.error('Login failed. Please try again.');
     }
   };
 
@@ -137,22 +125,6 @@ function LoginPage() {
               {isSignUp ? 'Sign In' : 'Sign Up'}
             </button>
           </p>
-
-          <div className="login-divider">
-            <span>or</span>
-          </div>
-
-          <div className="login-google-wrapper">
-            <GoogleLogin
-              onSuccess={handleGoogleSuccess}
-              onError={() => toast.error('Google login failed.')}
-              theme="outline"
-              shape="rectangular"
-              size="large"
-              text="continue_with"
-              width="300"
-            />
-          </div>
 
           <p className="login-terms">
             By continuing you agree to our Terms of Service and Privacy Policy

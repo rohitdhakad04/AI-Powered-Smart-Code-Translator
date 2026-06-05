@@ -1,7 +1,6 @@
 import bcrypt from "bcryptjs";
 import User from "../models/User.model.js";
 import { generateToken } from "../utils/jwt.utils.js";
-import { verifyGoogleToken } from "../config/google.config.js";
 
 export const register = async (name, email, password) => {
   const existing = await User.findOne({ email });
@@ -43,37 +42,6 @@ export const emailLogin = async (email, password) => {
 
   user.lastLogin = new Date();
   await user.save();
-  const token = generateToken(user);
-
-  return {
-    token,
-    user: {
-      id: user._id,
-      email: user.email,
-      name: user.name,
-      picture: user.picture,
-    },
-  };
-};
-
-export const googleLogin = async (credential) => {
-  const googleUser = await verifyGoogleToken(credential);
-
-  let user = await User.findOneAndUpdate(
-    { googleId: googleUser.googleId },
-    {
-      googleId: googleUser.googleId,
-      email: googleUser.email,
-      name: googleUser.name,
-      picture: googleUser.picture,
-      lastLogin: new Date(),
-    },
-    {
-      returnDocument: "after",
-      upsert: true,
-    },
-  );
-
   const token = generateToken(user);
 
   return {
