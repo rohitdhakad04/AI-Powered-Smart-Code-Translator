@@ -28,7 +28,7 @@ services:
     repo: https://github.com/rohitdhakad04/AI-Powered-Smart-Code-Translator
     branch: main
     root: client
-    buildCommand: npm install && npm run build
+    buildCommand: npm ci && npm run build
     publishCommand: dist
     envVars:
       - key: VITE_GOOGLE_CLIENT_ID
